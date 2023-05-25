@@ -1,0 +1,56 @@
+---
+title: "A UN Report on the Relationship between GDP and Life Expectancy"
+author: "Sharon"
+date: "2023-05-25"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r packages, include=FALSE}
+library(tidyverse)
+```
+
+This report was prepared to the attention of the UN. It analyzes the relationships between a country's GFP, its life expectancy and CO2 emissions. Our goal is to determine to what degree a country's economic strength or weakness may be related to its public...
+
+```{r load data, include=FALSE}
+gapminder_1997 <- read_csv("data/gapminder_1997.csv")
+```
+
+```{r gdp_lifeexp_1997, echo=FALSE}
+ggplot(data = gapminder_1997) + 
+  aes(x= gdpPercap, y = lifeExp, color = continent, size=pop/1000000) +
+  geom_point() +
+  labs(x= "GDP Per Capita", y="Life Expectancy", 
+       title = "DO people in wealth countries life longer",
+       size= "Population (in millions)")
+```
+```{r, include=FALSE}
+# this piece of code count the number of countries
+nCountries <- gapminder_1997 %>% select(country) %>% n_distinct()
+minGDP <- gapminder_1997 %>% summarise(min(gdpPercap)) %>% 
+   pull()
+maxGDP <-gapminder_1997 %>% summarise(max(gdpPercap)) %>% 
+   pull()
+```
+
+The above plot shows the relationship betwen GDP and life expectancy for a total of `r nCountries` countries. 
+For this set of countriess, economic wealth ranged from a min of USD
+`r minGDP` to `r maxGDP`
+
+| HEADER 1 | HEADER 2 |
+| -------- | -------- |
+| row 1, column 1 | row 1, column 2 |
+| row 2, column 1 | row 2, column 2 |
+
+```{r kable_table}
+library(knitr)
+gapminder_1997 %>% 
+  filter(continent == "Oceania") %>% 
+  kable() #function for making a table
+```
+
+
+
